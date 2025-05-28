@@ -1,4 +1,4 @@
-#include "utils/cuda_assert.cuh"
+#include "utils/cuda_utils.cuh"
 
 int main() {
     

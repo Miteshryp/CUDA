@@ -2,7 +2,7 @@
 #include<stdio.h>
 
 #include "cuda_runtime.h"
-#include "utils/cuda_assert.cuh"
+#include "utils/cuda_utils.cuh"
 
 __global__ void GPUFunction() {
    // std::cout << "Thread: " << threadIdx.x  << " running in block: " << blockIdx.x << std::endl;

@@ -1,7 +1,7 @@
 #include<cuda_runtime.h>
 #include<device_launch_parameters.h>
 
-#include"utils/cuda_assert.cuh"
+#include"utils/cuda_utils.cuh"
 #include<stdio.h>
 
 
