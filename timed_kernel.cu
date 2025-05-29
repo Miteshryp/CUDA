@@ -1,7 +1,4 @@
-%%writefile main.cu
-
 // Timing the kernel and CPU runtime
-
 #include "utils/cuda_utils.cuh"
 
 __global__ void kernel(int* A, int *B, int* res, int n) {
@@ -26,12 +23,14 @@ bool check_results(int* A, int* B, int n) {
 
 
 int main() {
-    int n = 1000000;
+    int n = 100000000;
 
     // Creating host buffers
+    clock_t cpu_allocation_start = clock();
     int *h_array_A = (int*)malloc(sizeof(*h_array_A) * n);
     int *h_array_B = (int*)malloc(sizeof(*h_array_B) * n);
     int *h_array_res = (int*)calloc(n, sizeof(*h_array_B));
+    clock_t cpu_allocation_end = clock();
 
     for(int i = 0; i < n; i++){
         h_array_A[i] = i+1;
@@ -84,6 +83,7 @@ int main() {
 
     // Printing time results
     double gpu_allocation_time = (double)((double)(gpu_allocation_end - gpu_allocation_start) / CLOCKS_PER_SEC);
+    double cpu_allocation_time = (double)((double)(cpu_allocation_end - cpu_allocation_start) / CLOCKS_PER_SEC);
     double htd_transfer_time = (double)((double)(htd_transfer_end - htd_transfer_start) / CLOCKS_PER_SEC);
     double gpu_kernel_time = (double)((double)(gpu_kernel_end - gpu_kernel_start) / CLOCKS_PER_SEC);
     double dth_transfer_time = (double)((double)(dth_transfer_end - dth_transfer_start) / CLOCKS_PER_SEC);
@@ -93,6 +93,8 @@ int main() {
     printf("Host to Device transfer time: %4.6f\n", htd_transfer_time);
     printf("GPU kernel execution time: %4.6f\n", gpu_kernel_time);
     printf("Device to Host transfer time: %4.6f\n", dth_transfer_time);
+
+    printf("CPU Allocation time: %4.6f\n", cpu_allocation_time);
     printf("CPU kernel execution time: %4.6f\n", cpu_kernel_time);
 
     printf("\n\n");
